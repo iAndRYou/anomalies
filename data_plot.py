@@ -1,3 +1,4 @@
+import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 from pandas import DataFrame
@@ -85,9 +86,9 @@ def plot_mahalanobis_distribution(df: DataFrame) -> None:
     colors = ['b', 'g', 'r', 'k']
     
     for patch in ax.patches:
-        for i in range(len(colors)):
-            if patch.get_x() <= mean + i * std and patch.get_x() >= mean - i * std:
-                patch.set_facecolor(colors[i])
+        for i in range(1, len(colors) + 1):
+            if np.abs(patch.get_x() - mean) < (i * std):
+                patch.set_facecolor(colors[i - 1])
                 break
 
     plt.xlabel('Mahalanobis distance')
@@ -97,7 +98,9 @@ def plot_mahalanobis_distribution(df: DataFrame) -> None:
     plt.show()
     
     
-def plot_price_volume_corelation(df: DataFrame, hide_BTC: bool = False, hide_USD: bool = False) -> None:
+def plot_price_volume_corelation(df: DataFrame, hide_BTC: bool = False, hide_USD: bool = False, 
+                                 outliers_BTC: DataFrame | None = None,
+                                 outliers_USD: DataFrame | None = None, ) -> None:
     '''
     Plot the corelation between the price and the volume
     '''
@@ -106,6 +109,10 @@ def plot_price_volume_corelation(df: DataFrame, hide_BTC: bool = False, hide_USD
         sns.scatterplot(data=df, x='close', y='Volume USD', color='r', label='USD volume')
     if not hide_BTC:
         sns.scatterplot(data=df, x='close', y='Volume BTC', color='b', label='BTC volume')
+    if outliers_USD is not None:
+        sns.scatterplot(data=outliers_USD, x='close', y='Volume USD', color='red', label='Outliers', marker='o', s=100)
+    if outliers_BTC is not None:
+        sns.scatterplot(data=outliers_BTC, x='close', y='Volume BTC', color='blue', label='Outliers', marker='o', s=100)
 
     plt.xlabel('Price')
     plt.ylabel('Volume')
