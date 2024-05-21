@@ -66,3 +66,27 @@ def plot_mahalanobis_intervals(df: DataFrame, interval_days: int = 150) -> None:
     plt.title(f'Mahalanobis distance for intervals')
 
     plt.show()
+    
+
+def plot_mahalanobis_distribution(df: DataFrame) -> None:
+    '''
+    Plot the distribution of the Mahalanobis distance
+    '''
+    sns.set_theme(style="whitegrid")
+    ax = sns.histplot(data=df['MD'], kde=False)
+    
+    mean = df['MD'].mean()
+    std = df['MD'].std()
+    colors = ['b', 'g', 'r', 'k']
+    
+    for patch in ax.patches:
+        for i in range(len(colors)):
+            if patch.get_x() <= mean + i * std and patch.get_x() >= mean - i * std:
+                patch.set_facecolor(colors[i])
+                break
+
+    plt.xlabel('Mahalanobis distance')
+    plt.ylabel('Frequency')
+    plt.title(f'Distribution of the Mahalanobis distance')
+
+    plt.show()
