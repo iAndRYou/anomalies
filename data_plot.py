@@ -20,7 +20,8 @@ def plot_volume(df: DataFrame) -> None:
     plt.show()
 
 
-def plot_price(df: DataFrame, interval_days_window: int = 150) -> None:
+def plot_price(df: DataFrame, interval_days_window: int = 150,
+                outliers: DataFrame | None = None) -> None:
     '''
     Plot the close price and the means for intervals
     '''
@@ -38,7 +39,9 @@ def plot_price(df: DataFrame, interval_days_window: int = 150) -> None:
         xmin = df.loc[df['interval'] == interval].index.min()
         xmax = df.loc[df['interval'] == interval].index.max()
         sns.lineplot(x=[xmin, xmax], y=[mean, mean], color='r')
-    
+        
+    if outliers is not None:
+        sns.scatterplot(data=outliers, x=outliers.index, y='close', color='red', label='Price outliers', marker='o', s=100)
 
     plt.xlabel('Date')
     plt.ylabel('Price')
