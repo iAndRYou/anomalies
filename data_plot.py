@@ -48,7 +48,8 @@ def plot_price(df: DataFrame, interval_days_window: int = 150) -> None:
     plt.show()
     
 
-def plot_mahalanobis(df: DataFrame, interval_days: int | None = None) -> None:
+def plot_mahalanobis(df: DataFrame, interval_days: int | None = None,
+                     outliers: DataFrame | None = None) -> None:
     '''
     Plot the Mahalanobis distance for each interval
     '''
@@ -67,6 +68,9 @@ def plot_mahalanobis(df: DataFrame, interval_days: int | None = None) -> None:
             sns.lineplot(data=interval_data, x=dates, y=distance)
         
         plt.title(f'Mahalanobis distance for intervals')
+    
+    if outliers is not None:
+        sns.scatterplot(data=outliers, x=outliers.index, y='MD', color='red', label='MD outliers', marker='o', s=100)
 
     plt.xlabel('Date')
     plt.ylabel('Mahalanobis distance')
