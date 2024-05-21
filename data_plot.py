@@ -110,9 +110,9 @@ def plot_price_volume_corelation(df: DataFrame, hide_BTC: bool = False, hide_USD
     if not hide_BTC:
         sns.scatterplot(data=df, x='close', y='Volume BTC', color='b', label='BTC volume')
     if outliers_USD is not None:
-        sns.scatterplot(data=outliers_USD, x='close', y='Volume USD', color='red', label='Outliers', marker='o', s=100)
+        sns.scatterplot(data=outliers_USD, x='close', y='Volume USD', color='red', label='USD outliers', marker='o', s=100)
     if outliers_BTC is not None:
-        sns.scatterplot(data=outliers_BTC, x='close', y='Volume BTC', color='blue', label='Outliers', marker='o', s=100)
+        sns.scatterplot(data=outliers_BTC, x='close', y='Volume BTC', color='blue', label='BTC outliers', marker='o', s=100)
 
     plt.xlabel('Price')
     plt.ylabel('Volume')
