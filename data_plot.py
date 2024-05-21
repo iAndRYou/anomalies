@@ -47,23 +47,28 @@ def plot_price(df: DataFrame, interval_days_window: int = 150) -> None:
     plt.show()
     
 
-def plot_mahalanobis_intervals(df: DataFrame, interval_days: int = 150) -> None:
+def plot_mahalanobis(df: DataFrame, interval_days: int | None = None) -> None:
     '''
     Plot the Mahalanobis distance for each interval
     '''
     sns.set_theme(style="whitegrid")
     
-    # Plot for each interval
-    df = create_interval_column(df, interval_days)
-    for interval in df['interval'].unique():
-        interval_data = df.loc[df['interval'] == interval]
-        dates = interval_data.index
-        distance = interval_data['MD']
-        sns.lineplot(data=interval_data, x=dates, y=distance)
+    if interval_days is None:
+        sns.lineplot(data=df, x=df.index, y='MD')
+        plt.title(f'Mahalanobis distance')
+    else:
+        # Plot for each interval
+        df = create_interval_column(df, interval_days)
+        for interval in df['interval'].unique():
+            interval_data = df.loc[df['interval'] == interval]
+            dates = interval_data.index
+            distance = interval_data['MD']
+            sns.lineplot(data=interval_data, x=dates, y=distance)
+        
+        plt.title(f'Mahalanobis distance for intervals')
 
     plt.xlabel('Date')
     plt.ylabel('Mahalanobis distance')
-    plt.title(f'Mahalanobis distance for intervals')
 
     plt.show()
     
