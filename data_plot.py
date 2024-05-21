@@ -90,3 +90,21 @@ def plot_mahalanobis_distribution(df: DataFrame) -> None:
     plt.title(f'Distribution of the Mahalanobis distance')
 
     plt.show()
+    
+    
+def plot_price_volume_corelation(df: DataFrame, hide_BTC: bool = False, hide_USD: bool = False) -> None:
+    '''
+    Plot the corelation between the price and the volume
+    '''
+    sns.set_theme(style="whitegrid")
+    if not hide_USD:
+        sns.scatterplot(data=df, x='close', y='Volume USD', color='r', label='USD volume')
+    if not hide_BTC:
+        sns.scatterplot(data=df, x='close', y='Volume BTC', color='b', label='BTC volume')
+
+    plt.xlabel('Price')
+    plt.ylabel('Volume')
+    plt.title(f'Corelation between price and volume')
+
+    plt.legend(title='Legend')
+    plt.show()
