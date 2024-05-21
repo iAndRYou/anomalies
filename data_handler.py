@@ -21,8 +21,19 @@ def index_by_datetime(df: pd.DataFrame) -> pd.DataFrame:
     Set the 'datetime' column as the new index and return the DataFrame.
     '''
     df['datetime'] = pd.to_datetime(df['unix'], unit='s')
-    df = df.drop(columns=['unix'])
     df = df.set_index('datetime')
+    return df
+
+
+def create_interval_column(df: pd.DataFrame, interval_days: int = 150) -> pd.DataFrame:
+    '''
+    Create a new column 'interval' based on the 'datetime' column and the interval_days.
+    '''
+    df['datetime'] = pd.to_datetime(df['unix'], unit='s')
+    start_date = df['datetime'].min()
+
+    df['interval'] = ((df['datetime'] - start_date).dt.days // interval_days) + 1
+
     return df
 
 
@@ -30,10 +41,7 @@ def apply_mahalanobis_interval(df: pd.DataFrame, interval_days: int = 150) -> pd
     '''
     Apply the Mahalanobis distance based on days intervals to each row in the DataFrame and return it.
     '''
-    df['datetime'] = pd.to_datetime(df['unix'], unit='s')
-    start_date = df['datetime'].min()
-
-    df['interval'] = ((df['datetime'] - start_date).dt.days // interval_days) + 1
+    df = create_interval_column(df, interval_days)
 
     # Calculate Mahalanobis distance for each interval
     for interval in df['interval'].unique():
@@ -46,7 +54,5 @@ def apply_mahalanobis_interval(df: pd.DataFrame, interval_days: int = 150) -> pd
         df.loc[df['interval'] == interval, 'MD'] = \
             df.loc[df['interval'] == interval].apply(lambda x: 
                 mahalanobis_distance(zip_data, [x['unix'], x['close']]), axis=1)
-            
-    df = df.drop(columns=['datetime', 'interval'])
     
     return df
