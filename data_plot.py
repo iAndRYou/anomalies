@@ -20,7 +20,7 @@ def plot_volume(df: DataFrame) -> None:
     plt.show()
 
 
-def plot_price(df: DataFrame, interval_days_window: int = 150,
+def plot_price(df: DataFrame, interval_days: int = 150,
                 outliers: DataFrame | None = None) -> None:
     '''
     Plot the close price and the means for intervals
@@ -29,11 +29,11 @@ def plot_price(df: DataFrame, interval_days_window: int = 150,
     sns.lineplot(data=df, x=df.index, y='close', color='b', label='Price')
     
     # Add rolling mean to the plot
-    hours_window = interval_days_window * 24
-    sns.lineplot(data=df, x=df.index, y=df['close'].rolling(window=hours_window).mean(), color='g', label=f'{interval_days_window} days rolling mean')
+    hours_window = interval_days * 24
+    sns.lineplot(data=df, x=df.index, y=df['close'].rolling(window=hours_window).mean(), color='g', label=f'{interval_days} days rolling mean')
     
     # Add interval means to the plot
-    df = create_interval_column(df, interval_days_window)
+    df = create_interval_column(df, interval_days)
     for interval in df['interval'].unique():
         mean = df.loc[df['interval'] == interval, 'close'].mean()
         xmin = df.loc[df['interval'] == interval].index.min()
