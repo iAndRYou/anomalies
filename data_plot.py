@@ -127,3 +127,19 @@ def plot_price_volume_corelation(df: DataFrame, hide_BTC: bool = False, hide_USD
 
     plt.legend(title='Legend')
     plt.show()
+    
+def plot_outliers(df: DataFrame, outliers: DataFrame, title: str) -> None:
+    '''
+    Plot the outliers for the close price
+    '''
+    sns.set_theme(style="whitegrid")
+    sns.lineplot(data=df, x=df.index, y='close', color='b', label='Price')
+        
+    sns.scatterplot(data=outliers, x=outliers.index, y='close', color='red', label='Outliers', marker='o', s=100)
+
+    plt.xlabel('Date')
+    plt.ylabel('Price')
+    plt.title(title)
+
+    plt.legend(title='Legend')
+    plt.show()
