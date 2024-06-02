@@ -1,12 +1,12 @@
 import pandas as pd
 import numpy as np
-from metrics import mahalanobis_distance
+from data.metrics import mahalanobis_distance
 
 def get_bitcoin_data() -> pd.DataFrame:
     '''
     Load the Bitcoin hourly data from the CSV file and return it as a DataFrame.
     '''
-    df = pd.read_csv('./BTC-Hourly.csv')
+    df = pd.read_csv('./data/BTC-Hourly.csv')
     df = df.drop(columns=['date', 'symbol'])
     
     # Replace and drop NaN values
@@ -54,5 +54,14 @@ def apply_mahalanobis_interval(df: pd.DataFrame, interval_days: int = 150) -> pd
         df.loc[df['interval'] == interval, 'MD'] = \
             df.loc[df['interval'] == interval].apply(lambda x: 
                 mahalanobis_distance(zip_data, [x['unix'], x['close']]), axis=1)
+    
+    return df
+
+def add_anomaly_column(df: pd.DataFrame, outliers: pd.DataFrame) -> pd.DataFrame:
+    '''
+    Add a new column 'anomaly' to the DataFrame based on the outliers.
+    '''
+    df['anomaly'] = False
+    df.loc[outliers.index, 'anomaly'] = True
     
     return df

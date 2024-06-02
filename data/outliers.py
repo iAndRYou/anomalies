@@ -4,7 +4,7 @@ from scipy import stats
 
 def get_mahalanobis_outliers(df: pd.DataFrame, std_threshold: float = 4) -> pd.DataFrame:
     '''
-    Get the mahalanobis outliers in the data
+    Get the mahalanobis outliers in the data.
     '''
     df = df.copy()
     mean = df['MD'].mean()
@@ -19,7 +19,7 @@ def get_mahalanobis_outliers(df: pd.DataFrame, std_threshold: float = 4) -> pd.D
 
 def get_correlation_outliers(df: pd.DataFrame, data_column: str, std_threshold: float = 4) -> pd.DataFrame:
     '''
-    Get the correlation outliers in the data
+    Get the correlation outliers in the data.
     '''
     df = df.copy()
     slope, intercept, _, _, _ = stats.linregress(df['close'], df[data_column])
@@ -39,7 +39,7 @@ def get_correlation_outliers(df: pd.DataFrame, data_column: str, std_threshold: 
 
 def get_merged_outliers(df: pd.DataFrame, data_column: str, std_threshold_mahalanobis: float = 4, std_threshold_correlation: float = 4) -> pd.DataFrame:
     '''
-    Get the merged outliers for mahaanobis and given orrelation outliers in the data
+    Get the merged outliers for mahaanobis and given orrelation outliers in the data.
     '''
     mahalanobis_outliers = get_mahalanobis_outliers(df, std_threshold_mahalanobis)
     correlation_outliers = get_correlation_outliers(df, data_column, std_threshold_correlation)
@@ -51,7 +51,7 @@ def get_merged_outliers(df: pd.DataFrame, data_column: str, std_threshold_mahala
 
 def concat_outliers(outliers_list: list) -> pd.DataFrame:
     '''
-    Concatenate the outliers from the list
+    Concatenate the outliers from the list.
     '''
     outliers = pd.concat(outliers_list)
     

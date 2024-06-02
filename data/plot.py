@@ -2,11 +2,11 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 from pandas import DataFrame
-from data_handler import create_interval_column
+from data.handler import create_interval_column
 
 def plot_volume(df: DataFrame) -> None:
     '''
-    Plot the volume for BTC and USD
+    Plot the volume for BTC and USD.
     '''
     sns.set_theme(style="whitegrid")
     sns.lineplot(data=df, x=df.index, y='Volume BTC', color='b', label='BTC volume')
@@ -23,7 +23,7 @@ def plot_volume(df: DataFrame) -> None:
 def plot_price(df: DataFrame, interval_days: int = 150,
                 outliers: DataFrame | None = None) -> None:
     '''
-    Plot the close price and the means for intervals
+    Plot the close price and the means for intervals.
     '''
     sns.set_theme(style="whitegrid")
     sns.lineplot(data=df, x=df.index, y='close', color='b', label='Price')
@@ -54,7 +54,7 @@ def plot_price(df: DataFrame, interval_days: int = 150,
 def plot_mahalanobis(df: DataFrame, interval_days: int | None = None,
                      outliers: DataFrame | None = None) -> None:
     '''
-    Plot the Mahalanobis distance for each interval
+    Plot the Mahalanobis distance for each interval.
     '''
     sns.set_theme(style="whitegrid")
     
@@ -83,7 +83,7 @@ def plot_mahalanobis(df: DataFrame, interval_days: int | None = None,
 
 def plot_mahalanobis_distribution(df: DataFrame) -> None:
     '''
-    Plot the distribution of the Mahalanobis distance
+    Plot the distribution of the Mahalanobis distance.
     '''
     sns.set_theme(style="whitegrid")
     ax = sns.histplot(data=df['MD'], kde=False)
@@ -109,7 +109,7 @@ def plot_price_volume_corelation(df: DataFrame, hide_BTC: bool = False, hide_USD
                                  outliers_BTC: DataFrame | None = None,
                                  outliers_USD: DataFrame | None = None, ) -> None:
     '''
-    Plot the corelation between the price and the volume
+    Plot the corelation between the price and the volume.
     '''
     sns.set_theme(style="whitegrid")
     if not hide_USD:
@@ -130,7 +130,7 @@ def plot_price_volume_corelation(df: DataFrame, hide_BTC: bool = False, hide_USD
     
 def plot_outliers(df: DataFrame, outliers: DataFrame, title: str) -> None:
     '''
-    Plot the outliers for the close price
+    Plot the outliers for the close price.
     '''
     sns.set_theme(style="whitegrid")
     sns.lineplot(data=df, x=df.index, y='close', color='b', label='Price')
