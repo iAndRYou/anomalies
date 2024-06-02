@@ -48,3 +48,11 @@ def get_merged_outliers(df: pd.DataFrame, data_column: str, std_threshold_mahala
     anomalies_index = pd.merge(mahalanobis_outliers, correlation_outliers, left_index=True, right_index=True, how='inner').index
     
     return df.loc[anomalies_index]
+
+def concat_outliers(outliers_list: list) -> pd.DataFrame:
+    '''
+    Concatenate the outliers from the list
+    '''
+    outliers = pd.concat(outliers_list)
+    
+    return outliers
