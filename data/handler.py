@@ -65,3 +65,17 @@ def add_anomaly_column(df: pd.DataFrame, outliers: pd.DataFrame) -> pd.DataFrame
     df.loc[outliers.index, 'anomaly'] = True
     
     return df
+
+def prepare_dataset(df: pd.DataFrame) -> pd.DataFrame:
+    '''
+    Prepare the dataset for training and evaluation. 
+    Only columns 'timestamp', 'close', 'volume_btc', 'volume_usd', 'anomaly' are kept.
+    
+    The column 'timestamp' is a unix timestamp in seconds.
+    '''
+    df = df[['unix', 'close', 'Volume BTC', 'Volume USD', 'anomaly']].copy()
+    
+    # Rename columns
+    df.columns = ['timestamp', 'close', 'volume_btc', 'volume_usd', 'anomaly']
+    
+    return df
