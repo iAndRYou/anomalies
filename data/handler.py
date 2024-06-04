@@ -61,6 +61,7 @@ def add_anomaly_column(df: pd.DataFrame, outliers: pd.DataFrame) -> pd.DataFrame
     '''
     Add a new column 'anomaly' to the DataFrame based on the outliers.
     '''
+    df = df.copy()
     df['anomaly'] = False
     df.loc[outliers.index, 'anomaly'] = True
     
