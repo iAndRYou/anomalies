@@ -64,7 +64,6 @@ def add_anomaly_column(df: pd.DataFrame, outliers: pd.DataFrame) -> pd.DataFrame
     df=df.copy()
     df['anomaly'] = False
     df.loc[outliers.index, 'anomaly'] = True
-    
     return df
 
 def prepare_dataset(df: pd.DataFrame) -> pd.DataFrame:
